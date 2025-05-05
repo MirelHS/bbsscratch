@@ -8,7 +8,7 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 30px;
+      padding: 20px;
       margin: 0;
     }
 
@@ -16,12 +16,12 @@
       position: relative;
       width: 100%;
       max-width: 752px;
-      height: auto;
       margin: 0 auto;
     }
 
     #hidden-image {
       width: 100%;
+      height: auto;
       display: block;
     }
 
@@ -33,6 +33,7 @@
       cursor: crosshair;
       width: 100%;
       height: 100%;
+      touch-action: none;
     }
 
     p {
@@ -52,7 +53,6 @@
   <script>
     const canvas = document.getElementById('scratch-canvas');
     const ctx = canvas.getContext('2d');
-    const container = document.getElementById('scratch-container');
     const img = document.getElementById('hidden-image');
     let isDrawing = false;
 
@@ -60,9 +60,9 @@
       canvas.width = img.clientWidth;
       canvas.height = img.clientHeight;
 
-      // Fill the canvas with gray color only
+      // Use a cheerful color like bright yellow-orange
       ctx.globalCompositeOperation = 'source-over';
-      ctx.fillStyle = '#888';
+      ctx.fillStyle = '#f4c542';  // Cheerful scratch layer color
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
@@ -96,7 +96,7 @@
     canvas.addEventListener('touchend', () => isDrawing = false);
     canvas.addEventListener('touchmove', scratch, { passive: false });
 
-    // Redraw when image is loaded
+    // Ensure canvas matches image after load or resize
     img.onload = resizeCanvas;
     window.addEventListener('resize', resizeCanvas);
   </script>
