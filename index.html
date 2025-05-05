@@ -76,6 +76,7 @@
     let isDrawing = false;
     let scratchedPixels = 0;
     const totalPixels = 752 * 790; // Canvas size
+    let confettiShown = false;
 
     function resizeCanvas() {
       canvas.width = img.clientWidth;
@@ -114,8 +115,9 @@
         if (imgData.data[i + 3] === 0) scratchedPixels++;
       }
 
-      // If 70% of the canvas is scratched, trigger confetti
-      if ((scratchedPixels / totalPixels) > 0.7) {
+      // If 80% of the canvas is scratched, trigger confetti (and only once)
+      if ((scratchedPixels / totalPixels) > 0.8 && !confettiShown) {
+        confettiShown = true;
         triggerConfetti();
       }
     }
@@ -128,7 +130,7 @@
         confetti.style.top = `${Math.random() * 100}%`;
         document.body.appendChild(confetti);
 
-        // Remove confetti after animation
+        // Remove confetti after 2 seconds
         setTimeout(() => {
           confetti.remove();
         }, 2000);
