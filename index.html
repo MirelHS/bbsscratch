@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Răzuiește aici</title>
+  <title>Surpriză</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      padding: 50px;
+      padding: 30px;
+      margin: 0;
     }
 
     #scratch-container {
@@ -19,23 +20,28 @@
       border: 2px solid #ccc;
     }
 
-    #hidden-image {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
+    #hidden-image,
     #scratch-canvas {
       position: absolute;
       top: 0;
       left: 0;
+      width: 752px;
+      height: 790px;
+      display: block;
+    }
+
+    #scratch-canvas {
       z-index: 10;
       cursor: crosshair;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>Răzuiește aici</h1>
   <p>Răzuiește zona de mai jos pentru a vedea surpriza:</p>
 
   <div id="scratch-container">
@@ -48,7 +54,6 @@
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
 
-    // Initial gray layer with text
     function drawCover() {
       ctx.fillStyle = '#888';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -82,5 +87,13 @@
       ctx.fill();
     }
 
-    // Mouse
-    canvas.addEventListener
+    canvas.addEventListener('mousedown', () => isDrawing = true);
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mousemove', scratch);
+
+    canvas.addEventListener('touchstart', () => isDrawing = true);
+    canvas.addEventListener('touchend', () => isDrawing = false);
+    canvas.addEventListener('touchmove', scratch, { passive: false });
+  </script>
+</body>
+</html>
