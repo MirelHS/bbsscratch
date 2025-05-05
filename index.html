@@ -13,8 +13,8 @@
 
     #scratch-container {
       position: relative;
-      width: 300px;
-      height: 200px;
+      width: 752px;
+      height: 790px;
       margin: 20px auto;
       border: 2px solid #ccc;
       overflow: hidden;
@@ -42,8 +42,8 @@
   <p>Răzuiește zona de mai jos pentru a vedea surpriza:</p>
 
   <div id="scratch-container">
-    <img id="hidden-image" src="https://placekitten.com/300/200" alt="Surpriză" />
-    <canvas id="scratch-canvas" width="300" height="200"></canvas>
+    <img id="hidden-image" src="https://raw.githubusercontent.com/MirelHS/bbsscratch/main/surprise.png" alt="Surpriză" />
+    <canvas id="scratch-canvas" width="752" height="790"></canvas>
   </div>
 
   <script>
@@ -51,12 +51,11 @@
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
 
-    // Draw gray overlay with centered text
     function drawOverlay() {
       ctx.fillStyle = 'gray';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.font = '20px Arial';
+      ctx.font = '24px Arial';
       ctx.fillStyle = 'white';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -84,7 +83,7 @@
       const { x, y } = getPosition(e);
       ctx.globalCompositeOperation = 'destination-out';
       ctx.beginPath();
-      ctx.arc(x, y, 20, 0, Math.PI * 2);
+      ctx.arc(x, y, 25, 0, Math.PI * 2);
       ctx.fill();
     }
 
