@@ -78,6 +78,7 @@
     const totalPixels = 752 * 790; // Canvas size
     let confettiShown = false;
 
+    // Resize canvas and apply the scratch effect box
     function resizeCanvas() {
       canvas.width = img.clientWidth;
       canvas.height = img.clientHeight;
@@ -88,6 +89,7 @@
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
+    // Get mouse or touch coordinates
     function getCoords(e) {
       const rect = canvas.getBoundingClientRect();
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -98,12 +100,13 @@
       };
     }
 
+    // Scratching logic
     function scratch(e) {
       if (!isDrawing) return;
       e.preventDefault();
       const { x, y } = getCoords(e);
 
-      // Scratch logic
+      // Apply the scratch effect
       ctx.globalCompositeOperation = 'destination-out';
       ctx.beginPath();
       ctx.arc(x, y, 30, 0, Math.PI * 2);
@@ -115,15 +118,15 @@
         if (imgData.data[i + 3] === 0) scratchedPixels++;
       }
 
-      // If 90% of the canvas is scratched, trigger confetti (and only once)
+      // If 90% of the canvas is scratched, trigger confetti (only once)
       if ((scratchedPixels / totalPixels) > 0.9 && !confettiShown) {
         confettiShown = true;
         triggerConfetti();
       }
     }
 
+    // Trigger confetti
     function triggerConfetti() {
-      // Create and animate confetti
       for (let i = 0; i < 50; i++) {
         const confetti = document.createElement('div');
         confetti.classList.add('confetti');
