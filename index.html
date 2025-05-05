@@ -14,25 +14,25 @@
 
     #scratch-container {
       position: relative;
-      width: 752px;
-      height: 790px;
+      width: 100%;
+      max-width: 752px;
+      height: auto;
       margin: 0 auto;
-      border: 2px solid #ccc;
     }
 
-    #hidden-image,
-    #scratch-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 752px;
-      height: 790px;
+    #hidden-image {
+      width: 100%;
       display: block;
     }
 
     #scratch-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       z-index: 10;
       cursor: crosshair;
+      width: 100%;
+      height: 100%;
     }
 
     p {
@@ -46,26 +46,25 @@
 
   <div id="scratch-container">
     <img id="hidden-image" src="https://raw.githubusercontent.com/MirelHS/bbsscratch/main/surprise.png" alt="Surpriză" />
-    <canvas id="scratch-canvas" width="752" height="790"></canvas>
+    <canvas id="scratch-canvas"></canvas>
   </div>
 
   <script>
     const canvas = document.getElementById('scratch-canvas');
     const ctx = canvas.getContext('2d');
+    const container = document.getElementById('scratch-container');
+    const img = document.getElementById('hidden-image');
     let isDrawing = false;
 
-    function drawCover() {
+    function resizeCanvas() {
+      canvas.width = img.clientWidth;
+      canvas.height = img.clientHeight;
+
+      // Fill the canvas with gray color only
+      ctx.globalCompositeOperation = 'source-over';
       ctx.fillStyle = '#888';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.font = '28px Arial';
-      ctx.fillStyle = '#fff';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('Răzuiește aici pentru o surpriză', canvas.width / 2, canvas.height / 2);
     }
-
-    drawCover();
 
     function getCoords(e) {
       const rect = canvas.getBoundingClientRect();
@@ -87,13 +86,19 @@
       ctx.fill();
     }
 
+    // Mouse events
     canvas.addEventListener('mousedown', () => isDrawing = true);
     canvas.addEventListener('mouseup', () => isDrawing = false);
     canvas.addEventListener('mousemove', scratch);
 
+    // Touch events
     canvas.addEventListener('touchstart', () => isDrawing = true);
     canvas.addEventListener('touchend', () => isDrawing = false);
     canvas.addEventListener('touchmove', scratch, { passive: false });
+
+    // Redraw when image is loaded
+    img.onload = resizeCanvas;
+    window.addEventListener('resize', resizeCanvas);
   </script>
 </body>
 </html>
